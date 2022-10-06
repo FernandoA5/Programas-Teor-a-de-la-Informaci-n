@@ -10,13 +10,14 @@ const MIN: i32=1;
 fn main() {
     //CALCULAR LA INFORMACIÓN MUTUA Y ENTROPÍA DE LOS EVENTOS
         //a. LANZAR 2 DADOS
-        dos_dados_iguales();
+        //dos_dados_iguales();
         //b. LANZAR 2 DADOS DE DISTINTO COLOR
+        dos_dados_diferente_color();
 
 
 }
 
-fn dos_dados_iguales(){
+fn _dos_dados_iguales(){
     println!("\nInformación mutua y entropía de lanzar dos dados iguales");
     //OBTENER LA PROBABILIDAD
     //CALCULAR COMBINACIONES (NO REPETICIÓN)  PER > COMB
@@ -33,7 +34,7 @@ fn dos_dados_iguales(){
         }
     }   
     //INICIALIZAMOS EL ARRAY EN CEROS
-    for i in suma_min..suma_max+1 {
+    for _i in suma_min..suma_max+1 {
         ocurr_de_cada_suma.push(0);
     }
     //CONTAMOS CUANTAS VECES SE REPITIÓ CADA SUMA
@@ -68,9 +69,13 @@ fn dos_dados_iguales(){
     println!("\nEntropía de cada evento");
     let mut entropia_arr: Vec<f64> = Vec::new();
     let mut entropia_total: f64=0.0;
+    
     for i in 0..info_mutua.len() {
+        //CALCULAMOS LA PROBABILIDAD DE QUE OCURRA CADA EVENTO (SUMA)
         let p:f64 = (ocurr_de_cada_suma[i] as f64) / (MAX.pow(2) as f64);
+        //CALCULAMOS LA ENTROPÍA: PRODUCTO DE LA I(E) * LA PROBABILIDAD
         let entropia = p * info_mutua[i];
+        //GUARDAMOS LA ENTROPÍA EN EL VECTOR
         entropia_arr.push(entropia);
         println!("H({})={}", (i+suma_min as usize), entropia_arr[i]);
         entropia_total+=entropia_arr[i];
@@ -78,9 +83,22 @@ fn dos_dados_iguales(){
     println!("Entropía total: {}", entropia_total);
     // println!("Factorial!: {}", comb_totales);
 }
-fn _obtener_factorial(n: i32)-> i32{
-    if n==0{
-        return 1;
-    }
-        return n*_obtener_factorial(n-1);
+fn dos_dados_diferente_color(){
+    println!("\nInformación mutua y entropía de lanzar dos dados de diferente color");
+    //OBTENER LA PROBABILIDAD
+    let proba: f64 = ((1 as f64) / (CARAS as f64)).powi(DADOS);
+    //CALCULAMOS LA INFORMACIÓN MUTUA
+    let info_mutua_individual: f64 = (proba.log10()).neg();
+    let info_mutua_total:f64 = info_mutua_individual*CARAS.pow(DADOS as u32) as f64;
+
+    println!("Probabilidades de cada evento: {}", proba);
+    println!("Información mutua de cada evento: {}", info_mutua_individual);
+    println!("Información mutua total: {}", info_mutua_total);
+
+    //CALCULAMOS LA ENTROPÍA
+    let entropia_individual:f64 = proba * info_mutua_individual;
+    let entropia_total:f64= entropia_individual * CARAS.pow(DADOS as u32) as f64;
+
+    println!("\nEntropia de cada evento: {}", entropia_individual);
+    println!("Entropía total: {}", entropia_total);
 }
