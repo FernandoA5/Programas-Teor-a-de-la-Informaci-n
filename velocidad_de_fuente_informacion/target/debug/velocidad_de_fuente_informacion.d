@@ -1,0 +1,1 @@
+/mnt/c/Users/Fernando\ Alcalá/OneDrive/Biblioteca/Universidad/Clases/9no\ Semestre/Teoría\ de\ la\ información/Programas/velocidad_de_fuente_informacion/target/debug/velocidad_de_fuente_informacion: /mnt/c/Users/Fernando\ Alcalá/OneDrive/Biblioteca/Universidad/Clases/9no\ Semestre/Teoría\ de\ la\ información/Programas/velocidad_de_fuente_informacion/src/main.rs
