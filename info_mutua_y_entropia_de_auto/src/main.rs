@@ -1,7 +1,6 @@
-use std::{collections::HashMap, f64::consts::PI, hash::{Hash, self}, ops::Neg};
+use std::{collections::HashMap, f64::consts::PI, ops::Neg};
 
 const DIRECCIONES:i32 = 4;
-const OPCIONES:i32 = DIRECCIONES-1;
 fn main() {
     //AUTO VIAJA EN ALGUNA DIRECCIÓN. 
     //50% DE LAS VECES SIGUE EN LA MISMA DIRECCIÓN, 
