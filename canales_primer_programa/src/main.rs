@@ -5,19 +5,19 @@ fn main() {
     let abc: Vec<String> = leer_abecedario();
     let n: i32 = abc.len() as i32;
     let r: i32 = pedir_numero();
-    
+    let mut hist: Vec<String> = Vec::new();
     //HAY QUE GENERAR LAS COMBINACIONES DEL ABECEDARIO DE ENTRADA    
+    println!("Combinaciones del abecedario A:");
+    println!("L: A");
     for len in 1..r+1{
-        
         let mut r: i32 = len;
         let mut i: i32 = 0;
         let mut indexs: Vec<usize> = Vec::new();
-        combinatoria(&abc, n, &mut r, &mut i, &mut indexs);
-        
+        combinatoria(&abc, n, &mut r, &mut i, &mut indexs, &mut hist);
     }
     
 }
-fn combinatoria(abc: &Vec<String>, n: i32, r: &mut i32, i: &mut i32, indexs: &mut Vec<usize>){
+fn combinatoria(abc: &Vec<String>, n: i32, r: &mut i32, i: &mut i32, indexs: &mut Vec<usize>, hist: &mut Vec<String>){
     if indexs.len() == 0 {
         for _r_i in 0..*r{
             indexs.push(0 as usize);
@@ -29,15 +29,44 @@ fn combinatoria(abc: &Vec<String>, n: i32, r: &mut i32, i: &mut i32, indexs: &mu
         for x in 0..n{
             indexs[*i as usize]=x as usize;
             let mut pendejada = *i+1;
-            combinatoria(&abc, n, r, &mut pendejada, indexs)
+            combinatoria(&abc, n, r, &mut pendejada, indexs, hist)
         }
     }
     else {
-        println!("");
-        for w in 0..*r{
-            print!("{}|", abc[indexs[w as usize]]);
+            println!("");
+            print!("{}: ", i);
+            let mut sum = 0;
+            let mut into :bool = false;
+            for w in 0..*r{
+                sum += abc[indexs[w as usize]].len(); //HACEMOS LA SUMA DE CARACTERES DE CADENA COMPUESTA
+            }
+            for w in 0..*r{
+                if sum == *r as usize{ //COMPROBAMOS LA LONGITUD DE CARACTERES INDIVIDUALES
+                    print!("{}", abc[indexs[w as usize]]);
+                    into = true;
+                }                
+            }
+            let mut string: String = String::new();
+            for w in 0..*r{
+                string += abc[indexs[w as usize]].as_str();
+                //BUSCAMOS LA CADENA COMPUESTA EN EL HISTORIAL:
+                let existe = buscar_elemento_en_historial(hist, &string);
+
+                if string.len() == *r as usize && into==false && !existe{ //COMPROBAMOS LA LONGITUD DE LA CADENA COMPUESTA
+                    print!("{}", string);
+                    hist.push(string.clone());
+                }
+            }
+    }
+}
+fn buscar_elemento_en_historial(hist: &mut Vec<String>, elemento: &String)->bool{
+    let mut existe= false;
+    for item in hist{
+        if item == elemento{
+            existe=true;
         }
     }
+    existe
 }
 fn pedir_numero()->i32{
     loop{
