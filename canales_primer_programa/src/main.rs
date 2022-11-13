@@ -33,31 +33,31 @@ fn combinatoria(abc: &Vec<String>, n: i32, r: &mut i32, i: &mut i32, indexs: &mu
         }
     }
     else {
-            println!("");
-            print!("{}: ", i);
-            let mut sum = 0;
             let mut into :bool = false;
+            let mut string: String = String::new();
             for w in 0..*r{
-                sum += abc[indexs[w as usize]].len(); //HACEMOS LA SUMA DE CARACTERES DE CADENA COMPUESTA
-            }
-            for w in 0..*r{
-                if sum == *r as usize{ //COMPROBAMOS LA LONGITUD DE CARACTERES INDIVIDUALES
-                    print!("{}", abc[indexs[w as usize]]);
+                string+=abc[indexs[w as usize]].as_str();
+                let existe = buscar_elemento_en_historial(hist, &string);
+                if string.len() == *r as usize && !existe{ //COMPROBAMOS LA LONGITUD DE CARACTERES INDIVIDUALES
+                    imprimir_string(*i, &string, hist);
                     into = true;
-                }                
+                }         
             }
             let mut string: String = String::new();
             for w in 0..*r{
                 string += abc[indexs[w as usize]].as_str();
-                //BUSCAMOS LA CADENA COMPUESTA EN EL HISTORIAL:
                 let existe = buscar_elemento_en_historial(hist, &string);
-
-                if string.len() == *r as usize && into==false && !existe{ //COMPROBAMOS LA LONGITUD DE LA CADENA COMPUESTA
-                    print!("{}", string);
-                    hist.push(string.clone());
+                if string.len() == *r as usize && into==false && !existe{
+                    imprimir_string(*i, &string, hist);
                 }
             }
     }
+}
+fn imprimir_string(i: i32, string: &String, hist: &mut Vec<String>){
+    print!("{}: ", i);
+    print!("{}", string);
+    print!("\n");
+    hist.push(string.clone());
 }
 fn buscar_elemento_en_historial(hist: &mut Vec<String>, elemento: &String)->bool{
     let mut existe= false;
